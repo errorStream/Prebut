@@ -18,6 +18,16 @@ namespace Prebut
         {
             var aspectRatio = _colorTexture.width / (float)_colorTexture.height;
             var instance = Instantiate(_scene);
+            foreach (var meshFilter in instance.GetComponentsInChildren<MeshFilter>())
+            {
+                var meshCollider = meshFilter.gameObject.AddComponent<MeshCollider>();
+                meshCollider.sharedMesh = meshFilter.sharedMesh;
+                var meshRenderer = meshFilter.gameObject.GetComponent<MeshRenderer>();
+                if (meshRenderer != null)
+                {
+                    meshRenderer.enabled = false;
+                }
+            }
             var sceneCamera = instance.GetComponentInChildren<Camera>();
             sceneCamera.transform.localScale = new Vector3(1, 1, 1);
             var backgroundCamera = new GameObject("Background Camera").AddComponent<Camera>();
