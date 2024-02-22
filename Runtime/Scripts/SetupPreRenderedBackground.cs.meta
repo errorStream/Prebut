@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: ab3588581c4230ab98172a66009bce84
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _scene: {instanceID: 0}
+  - _referenceMaterial: {fileID: 2100000, guid: 7f5bdf896d0fe4e65a4be7c2a55e8bbf, type: 2}
+  - _colorTexture: {instanceID: 0}
+  - _depthTexture: {instanceID: 0}
+  - _quadMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  - _extraData: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
