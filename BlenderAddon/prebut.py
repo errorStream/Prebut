@@ -63,17 +63,13 @@ class PREBUT_OT_configure_export_node(bpy.types.Operator):
 
         return {'FINISHED'}
 
-class PREBUT_OT_export_scene_and_data(bpy.types.Operator):
-    bl_label = "Export Scene and Data"
-    bl_idname = "prebut.export_scene_and_data"
+class PREBUT_OT_export_data(bpy.types.Operator):
+    bl_label = "Export Data"
+    bl_idname = "prebut.export_data"
 
     def execute(self, context):
         """Execute the operation."""
         base_path = context.scene.prebut_properties.export_directory
-
-        scene_path = bpy.path.abspath(base_path + "scene.fbx")
-        bpy.ops.export_scene.fbx(filepath=scene_path,
-                                 use_selection=False)
 
         is_orthographic = context.scene.camera.data.type == 'ORTHO'
         extra_data = {
@@ -175,7 +171,7 @@ class PT_prebut_panel(bpy.types.Panel):
     def draw(self, context):
         self.layout.prop(context.scene.prebut_properties, "export_directory")
         self.layout.operator("prebut.add_or_configure_export_node")
-        self.layout.operator("prebut.export_scene_and_data")
+        self.layout.operator("prebut.export_data")
         self.layout.operator("prebut.enable_depth_layer")
 
 class VIEW3D_PT_prebut_panel(PT_prebut_panel):
@@ -205,7 +201,7 @@ def register():
     bpy.utils.register_class(PREBUT_OT_add_or_configure_export_node)
     bpy.utils.register_class(PREBUT_OT_configure_export_node)
     bpy.utils.register_class(PREBUT_OT_enable_depth_layer)
-    bpy.utils.register_class(PREBUT_OT_export_scene_and_data)
+    bpy.utils.register_class(PREBUT_OT_export_data)
     bpy.utils.register_class(VIEW3D_PT_prebut_panel)
     bpy.app.handlers.render_pre.append(render_pre_handler)
 
@@ -217,7 +213,7 @@ def unregister():
     bpy.utils.unregister_class(PREBUT_OT_add_or_configure_export_node)
     bpy.utils.unregister_class(PREBUT_OT_configure_export_node)
     bpy.utils.unregister_class(PREBUT_OT_enable_depth_layer)
-    bpy.utils.unregister_class(PREBUT_OT_export_scene_and_data)
+    bpy.utils.unregister_class(PREBUT_OT_export_data)
     bpy.utils.unregister_class(VIEW3D_PT_prebut_panel)
     bpy.app.handlers.render_pre.remove(render_pre_handler)
     del bpy.types.Scene.prebut_properties

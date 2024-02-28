@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 namespace Prebut
@@ -13,8 +14,9 @@ namespace Prebut
         [SerializeField, Layer] private int _backgroundLayer;
         [SerializeField] private TextAsset _extraData;
         [SerializeField] private bool _addOrthographicCameraCenterController = true;
+        [SerializeField] private Color _backgroundColor = new Color(0.1921569f, 0.3019608f, 0.4745098f, 0f);
 
-        void Start()
+        private void Setup()
         {
             var aspectRatio = _colorTexture.width / (float)_colorTexture.height;
             var instance = Instantiate(_scene);
@@ -37,6 +39,7 @@ namespace Prebut
             backgroundCamera.farClipPlane = 1000;
             backgroundCamera.transform.rotation = Quaternion.Euler(90, 0, 0);
             backgroundCamera.cullingMask = 1 << _backgroundLayer;
+            backgroundCamera.backgroundColor = _backgroundColor;
             var backgroundQuad = new GameObject("Background Quad");
             backgroundQuad.transform.localPosition = new Vector3(0, -1, 0);
             backgroundQuad.transform.rotation = Quaternion.Euler(90, 0, 0);
@@ -68,6 +71,11 @@ namespace Prebut
             {
                 new GameObject("Orthographic Camera Center").AddComponent<OrthographicCameraCenter>().Configure(sceneCamera, backgroundCamera, aspectRatio);
             }
+        }
+
+        private void Awake()
+        {
+            Setup();
         }
     }
 }
