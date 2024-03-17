@@ -1,9 +1,0 @@
-{
-    "name": "com.amequus.prebut.Tests",
-    "references": [
-        "com.amequus.prebut"
-    ],
-    "optionalUnityReferences": [
-        "TestAssemblies"
-    ]
-}

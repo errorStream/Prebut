@@ -8,6 +8,15 @@ namespace Prebut
     {
         [SerializeField, HideInInspector] private Material _referenceMaterial;
         [SerializeField, HideInInspector] private Mesh _quadMesh;
+        [SerializeField, HideInInspector] private GameObject _sceneInstanceRoot;
+        [SerializeField, HideInInspector] private OrthographicCameraCenter _orthographicCameraCenter;
+        [SerializeField, HideInInspector] private Camera _backgroundCamera;
+        [SerializeField, HideInInspector] private GameObject _backgroundQuad;
+        [SerializeField, HideInInspector] private MeshRenderer _backgroundRenderer;
+        [SerializeField, HideInInspector] private Camera _sceneCamera;
+
+        [SerializeField, HideInInspector] private int _hiddenLayers = 0;
+
         [SerializeField] private GameObject _scene;
         [SerializeField] private Texture2D _colorTexture;
         [SerializeField] private Texture2D _depthTexture;
@@ -15,9 +24,7 @@ namespace Prebut
         [SerializeField] private TextAsset _extraData;
         [SerializeField] private bool _addOrthographicCameraCenterController = true;
         [SerializeField] private Color _backgroundColor = new Color(0.1921569f, 0.3019608f, 0.4745098f, 0f);
-
-        [SerializeField] private MeshRenderer _backgroundRenderer;
-        [SerializeField] private Camera _sceneCamera;
+        [SerializeField] private bool _clearDepth = true;
 
 #if UNITY_EDITOR
         public Texture2D ColorTexture => _colorTexture;
@@ -32,6 +39,28 @@ namespace Prebut
             get => _backgroundRenderer;
             set => _backgroundRenderer = value;
         }
+        public GameObject SceneInstanceRoot
+        {
+            get => _sceneInstanceRoot;
+            set => _sceneInstanceRoot = value;
+        }
+        public OrthographicCameraCenter OrthographicCameraCenter
+        {
+            get => _orthographicCameraCenter;
+            set => _orthographicCameraCenter = value;
+        }
+        public Camera BackgroundCamera
+        {
+            get => _backgroundCamera;
+            set => _backgroundCamera = value;
+        }
+        public GameObject BackgroundQuad
+        {
+            get => _backgroundQuad;
+            set => _backgroundQuad = value;
+        }
+        public int HiddenLayers => _hiddenLayers;
+        public bool ClearDepth => _clearDepth;
 #endif
 
         public Camera SceneCamera
