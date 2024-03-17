@@ -16,66 +16,59 @@ namespace Prebut
         [SerializeField] private bool _addOrthographicCameraCenterController = true;
         [SerializeField] private Color _backgroundColor = new Color(0.1921569f, 0.3019608f, 0.4745098f, 0f);
 
-        private void Setup()
-        {
-            var aspectRatio = _colorTexture.width / (float)_colorTexture.height;
-            var instance = Instantiate(_scene);
-            foreach (var meshFilter in instance.GetComponentsInChildren<MeshFilter>())
-            {
-                var meshCollider = meshFilter.gameObject.AddComponent<MeshCollider>();
-                meshCollider.sharedMesh = meshFilter.sharedMesh;
-                var meshRenderer = meshFilter.gameObject.GetComponent<MeshRenderer>();
-                if (meshRenderer != null)
-                {
-                    meshRenderer.enabled = false;
-                }
-            }
-            var sceneCamera = instance.GetComponentInChildren<Camera>();
-            sceneCamera.transform.localScale = new Vector3(1, 1, 1);
-            var backgroundCamera = new GameObject("Background Camera").AddComponent<Camera>();
-            backgroundCamera.orthographic = true;
-            backgroundCamera.orthographicSize = 0.5f;
-            backgroundCamera.nearClipPlane = 0.3f;
-            backgroundCamera.farClipPlane = 1000;
-            backgroundCamera.transform.rotation = Quaternion.Euler(90, 0, 0);
-            backgroundCamera.cullingMask = 1 << _backgroundLayer;
-            backgroundCamera.backgroundColor = _backgroundColor;
-            var backgroundQuad = new GameObject("Background Quad");
-            backgroundQuad.transform.localPosition = new Vector3(0, -1, 0);
-            backgroundQuad.transform.rotation = Quaternion.Euler(90, 0, 0);
-            backgroundQuad.transform.localScale = new Vector3(aspectRatio, 1, 1);
-            backgroundQuad.isStatic = true;
-            backgroundQuad.layer = _backgroundLayer;
-            backgroundQuad.AddComponent<MeshFilter>().mesh = _quadMesh;
-            var backgroundRenderer = backgroundQuad.AddComponent<MeshRenderer>();
-            var mat = new Material(_referenceMaterial);
-            backgroundRenderer.material = mat;
-            backgroundRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-            backgroundRenderer.receiveShadows = false;
-            var extraData = JsonUtility.FromJson<ExtraData>(_extraData.text);
-            if (extraData.is_orthographic)
-            {
-                sceneCamera.orthographic = true; // TEMP
-                sceneCamera.orthographicSize = extraData.orthographic_scale / (2 * aspectRatio);
-            }
-            mat.SetMatrix("_Perspective", sceneCamera.projectionMatrix);
-            mat.SetFloat("_Near", sceneCamera.nearClipPlane);
-            mat.SetFloat("_Far", sceneCamera.farClipPlane);
-            mat.SetTexture("_RenderedTex", _colorTexture);
-            mat.SetTexture("_DepthTex", _depthTexture);
-            sceneCamera.clearFlags = CameraClearFlags.Nothing;
-            sceneCamera.cullingMask = ~(1 << _backgroundLayer);
-            sceneCamera.depth = 1;
+        [SerializeField] private MeshRenderer _backgroundRenderer;
+        [SerializeField] private Camera _sceneCamera;
 
-            if (extraData.is_orthographic && _addOrthographicCameraCenterController)
-            {
-                new GameObject("Orthographic Camera Center").AddComponent<OrthographicCameraCenter>().Configure(sceneCamera, backgroundCamera, aspectRatio);
-            }
+#if UNITY_EDITOR
+        public Texture2D ColorTexture => _colorTexture;
+        public GameObject Scene => _scene;
+        public int BackgroundLayer => _backgroundLayer;
+        public Color BackgroundColor => _backgroundColor;
+        public TextAsset ExtraData => _extraData;
+        public Mesh QuadMesh => _quadMesh;
+        public bool AddOrthographicCameraCenterController => _addOrthographicCameraCenterController;
+        public MeshRenderer BackgroundRenderer
+        {
+            get => _backgroundRenderer;
+            set => _backgroundRenderer = value;
+        }
+#endif
+
+        public Camera SceneCamera
+        {
+            get => _sceneCamera;
+            set => _sceneCamera = value;
         }
 
-        private void Awake()
+        private void Start()
         {
-            Setup();
+            if (_referenceMaterial == null)
+            {
+                Debug.LogError("ReferenceMaterial is null");
+                return;
+            }
+            if (_sceneCamera == null)
+            {
+                Debug.LogError("SceneCamera is null");
+                return;
+            }
+            if (_colorTexture == null)
+            {
+                Debug.LogError("ColorTexture is null");
+                return;
+            }
+            if (_depthTexture == null)
+            {
+                Debug.LogError("DepthTexture is null");
+                return;
+            }
+            var mat = new Material(_referenceMaterial);
+            _backgroundRenderer.material = mat;
+            mat.SetMatrix("_Perspective", _sceneCamera.projectionMatrix);
+            mat.SetFloat("_Near", _sceneCamera.nearClipPlane);
+            mat.SetFloat("_Far", _sceneCamera.farClipPlane);
+            mat.SetTexture("_RenderedTex", _colorTexture);
+            mat.SetTexture("_DepthTex", _depthTexture);
         }
     }
 }

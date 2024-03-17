@@ -41,6 +41,13 @@ Shader "Hidden/Prebut/DrawPrerendered" {
 			      fout frag( vertOut i ) {              
                 fout fo;
 
+                float4 imageColor = tex2D(_RenderedTex, i.uv);
+
+                // Alpha clip
+                if (imageColor.a < 0.5) {
+                  discard;
+                }
+
 					      // Read the depth from the depth texture
 					      float4 imageDepth4 = tex2D(_DepthTex, i.uv);
                 // imageDepth4.x /= 4.7;
@@ -56,9 +63,14 @@ Shader "Hidden/Prebut/DrawPrerendered" {
 					      clipSpace.z = 0.5*(clipSpace.z+1.0);
 					      float z = clipSpace.z;
 
+                #if SHADER_API_D3D11
+                z = 1.0 - z;
+                #endif
+
 					      // Write out the pre-computed color and the correct depth.
 					      fo.color = tex2D(_RenderedTex, i.uv);
 					      fo.depth = z;
+
                 return fo;
             }
 			      

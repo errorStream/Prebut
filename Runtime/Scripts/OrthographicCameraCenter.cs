@@ -25,25 +25,23 @@ namespace Prebut
                 Refresh();
             }
         }
+        [SerializeField] private Camera _sceneCamera;
+        [SerializeField] private Camera _backgroundCamera;
+        [SerializeField] private float _aspectRatio;
 
         private float _baseSceneCameraOrthographicSize;
         private float _baseBackgroundCameraOrthographicSize;
-        private Camera _sceneCamera;
-        private Camera _backgroundCamera;
+
         private Vector3 _baseSceneCameraPosition;
-        private Vector3 _baseSceneCameraForward;
         private Vector3 _baseBackgroundCameraPosition;
         private Matrix4x4 _baseSceneCameraMatrix;
-        private float _aspectRatio;
         private Vector3 _baseOrigin;
 
-        private bool _configured;
         private bool _dirty = true;
 
         private void OnValidate()
         {
-            Zoom = Mathf.Max(1, Zoom);
-            _dirty = true;
+            _zoom = Mathf.Max(1, _zoom);
         }
 
         private static Vector2 ViewPointToGround(Vector2 viewPoint, float y, Matrix4x4 cameraMatrix, float orthographicSize, float aspectRatio)
@@ -105,25 +103,9 @@ namespace Prebut
 
         public void Configure(Camera sceneCamera, Camera backgroundCamera, float aspectRatio)
         {
-            _baseSceneCameraOrthographicSize = sceneCamera.orthographicSize;
-            _baseBackgroundCameraOrthographicSize = backgroundCamera.orthographicSize;
             _sceneCamera = sceneCamera;
             _backgroundCamera = backgroundCamera;
-            _baseSceneCameraPosition = sceneCamera.transform.position;
-            _baseSceneCameraForward = sceneCamera.transform.forward;
-            _baseBackgroundCameraPosition = backgroundCamera.transform.position;
-            _baseSceneCameraMatrix = sceneCamera.transform.localToWorldMatrix;
             _aspectRatio = aspectRatio;
-            var baseOriginXZ = ViewPointToGround(
-                viewPoint: new Vector2(0, 0),
-                y: 0,
-                cameraMatrix: _baseSceneCameraMatrix,
-                orthographicSize: _baseSceneCameraOrthographicSize,
-                aspectRatio: _aspectRatio);
-            _baseOrigin = new Vector3(baseOriginXZ.x, 0, baseOriginXZ.y);
-            Center = _baseOrigin;
-
-            _configured = true;
         }
 
         private float? _lastZoom;
@@ -131,7 +113,7 @@ namespace Prebut
 
         private void Refresh()
         {
-            if (!_configured || !_dirty)
+            if (!_dirty)
             {
                 return;
             }
@@ -146,7 +128,7 @@ namespace Prebut
             if (_lastCenter != Center)
             {
                 // Set scene camera position
-                _sceneCamera.transform.position = FindPointOnPlaneLookingAtTarget(_baseSceneCameraPosition, _baseSceneCameraForward, Center);
+                _sceneCamera.transform.position = FindPointOnPlaneLookingAtTarget(_baseSceneCameraPosition, _sceneCamera.transform.forward, Center);
                 // Set background camera position
                 var originViewPosition = WorldPointToViewPoint(_baseOrigin, _sceneCamera.transform.localToWorldMatrix, _baseSceneCameraOrthographicSize, _aspectRatio);
                 _backgroundCamera.transform.position = new Vector3(_baseBackgroundCameraPosition.x - (originViewPosition.x * _baseBackgroundCameraOrthographicSize * _aspectRatio),
@@ -156,6 +138,24 @@ namespace Prebut
             }
 
             _dirty = false;
+        }
+
+        void Awake()
+        {
+            _baseSceneCameraOrthographicSize = _sceneCamera.orthographicSize;
+            _baseBackgroundCameraOrthographicSize = _backgroundCamera.orthographicSize;
+            _baseSceneCameraPosition = _sceneCamera.transform.position;
+            _baseBackgroundCameraPosition = _backgroundCamera.transform.position;
+            _baseSceneCameraMatrix = _sceneCamera.transform.localToWorldMatrix;
+
+            var baseOriginXZ = ViewPointToGround(
+                viewPoint: new Vector2(0, 0),
+                y: 0,
+                cameraMatrix: _baseSceneCameraMatrix,
+                orthographicSize: _baseSceneCameraOrthographicSize,
+                aspectRatio: _aspectRatio);
+            _baseOrigin = new Vector3(baseOriginXZ.x, 0, baseOriginXZ.y);
+            Center = _baseOrigin;
         }
 
         void Start()
