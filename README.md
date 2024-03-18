@@ -5,6 +5,8 @@
 A suite of tools for making pre-rendered backgrounds in blender for
 use in unity.
 
+![Image](Images/zoomed-out.png)
+
 This project demonstrates a workflow for generating and usage of
 pre-rendered backgrounds in unity, with most of the kinks worked
 out. I'm making this project because I want to explore the artistic
