@@ -3,11 +3,12 @@ using UnityEngine;
 
 namespace Prebut
 {
+    [AddComponentMenu("Prebut/Background Clear")]
     public class BackgroundClear : MonoBehaviour
     {
         [SerializeField, HideInInspector] private Material _backgroundMaterial;
-        [SerializeField] private Texture2D _texture;
-        [SerializeField] private Color _tintColor = Color.white;
+        [SerializeField, Tooltip("The image which will be tilled")] private Texture2D _texture;
+        [SerializeField, Tooltip("Background is multiplied by this color")] private Color _tintColor = Color.white;
         [SerializeField] private float _scale = 10;
         [SerializeField] private float _scrollSpeed = 0;
         [SerializeField] private float _scrollAngle = 0f;

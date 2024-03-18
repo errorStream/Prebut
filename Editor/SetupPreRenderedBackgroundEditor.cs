@@ -105,17 +105,18 @@ namespace Prebut
 
             foreach (var meshFilter in _setupPreRenderedBackground.SceneInstanceRoot.GetComponentsInChildren<MeshFilter>())
             {
-                if (meshFilter.gameObject.GetComponent<MeshCollider>() != null)
+                var meshCollider = meshFilter.gameObject.GetComponent<MeshCollider>();
+                if (meshCollider == null)
                 {
-                    continue;
+                    meshCollider = meshFilter.gameObject.AddComponent<MeshCollider>();
                 }
-                var meshCollider = meshFilter.gameObject.AddComponent<MeshCollider>();
                 meshCollider.sharedMesh = meshFilter.sharedMesh;
                 var meshRenderer = meshFilter.gameObject.GetComponent<MeshRenderer>();
                 if (meshRenderer != null)
                 {
                     meshRenderer.enabled = false;
                 }
+                meshFilter.gameObject.isStatic = true;
             }
 
             if (_setupPreRenderedBackground.SceneCamera == null)
@@ -140,7 +141,7 @@ namespace Prebut
                 bc.nearClipPlane = 0.3f;
                 bc.farClipPlane = 1000;
                 bc.transform.rotation = Quaternion.Euler(90, 0, 0);
-                bc.clearFlags = _setupPreRenderedBackground.ClearDepth ? CameraClearFlags.SolidColor : CameraClearFlags.Depth;
+                bc.clearFlags = _setupPreRenderedBackground.ShouldClearColors ? CameraClearFlags.SolidColor : CameraClearFlags.Depth;
             }
 
             {

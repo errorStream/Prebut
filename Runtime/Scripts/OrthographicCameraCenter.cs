@@ -5,7 +5,8 @@ namespace Prebut
     [AddComponentMenu("")]
     public class OrthographicCameraCenter : MonoBehaviour
     {
-        [SerializeField] private Vector3 _center;
+        [SerializeField, Tooltip("The world position which will be placed in the center of the screen")]
+        private Vector3 _center;
         public Vector3 Center
         {
             get => _center;
@@ -25,9 +26,9 @@ namespace Prebut
                 Refresh();
             }
         }
-        [SerializeField] private Camera _sceneCamera;
-        [SerializeField] private Camera _backgroundCamera;
-        [SerializeField] private float _aspectRatio;
+        [SerializeField, HideInInspector] private Camera _sceneCamera;
+        [SerializeField, HideInInspector] private Camera _backgroundCamera;
+        [SerializeField, HideInInspector] private float _aspectRatio;
 
         private float _baseSceneCameraOrthographicSize;
         private float _baseBackgroundCameraOrthographicSize;
@@ -101,12 +102,14 @@ namespace Prebut
             return new Vector2((lrPos - 0.5f) * 2, (tbPos - 0.5f) * 2);
         }
 
+#if UNITY_EDITOR
         public void Configure(Camera sceneCamera, Camera backgroundCamera, float aspectRatio)
         {
             _sceneCamera = sceneCamera;
             _backgroundCamera = backgroundCamera;
             _aspectRatio = aspectRatio;
         }
+#endif
 
         private float? _lastZoom;
         private Vector3? _lastCenter;
