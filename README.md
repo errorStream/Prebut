@@ -1,23 +1,91 @@
-# Prebut
+<a name="readme-top"></a>
 
-***Pre***-rendered ***B***ackground ***Ut***ilities
+<br />
+<div align="center">
+  <h3 align="center">Prebut</h3>
+  <p align="center">
+    <b><i>Pre</i></b>-rendered <b><i>B</i></b>ackground <b><i>Ut</i></b>ilities
+  </p>
+  <p align="center">
+    A suite of tools for making pre-rendered backgrounds in blender for use in unity.
+    <br />
+    <br />
+    <a href="https://errorstream.itch.io/prebut-demo"><b>View Demo »</b></a>
+    <br />
+    <br />
+    <a href="https://github.com/errorStream/prebut/releases">Download</a>
+    ·
+    <a href="https://github.com/errorStream/prebut/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/errorStream/prebut/issues">Request Feature</a>
+  </p>
+</div>
 
-A suite of tools for making pre-rendered backgrounds in blender for
-use in unity.
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#whats-inside">What's inside?</a></li>
+      </ul>
+      <ul>
+        <li><a href="#who-is-this-for">Who is this for?</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li> <a href="#dependencies">Dependencies</a> </li>
+        <li>
+          <a href="#installation">Installation</a>
+          <ul><li><a href="#blender-add-on">Blender Add-on</a></li></ul>
+          <ul><li><a href="#unity-package">Unity Package</a></li></ul>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="#usage">Usage</a>
+      <ul>
+        <li>
+          <a href="#extra-functionality">Extra Functionality</a>
+          <ul><li><a href="#custom-clear">Custom Clear</a></li></ul>
+          <ul><li><a href="#orthographic-camera-center-controller">Orthographic Camera Center Controller</a></li></ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
 
-![Image](Images/zoomed-out.png)
 
-This project demonstrates a workflow for generating and usage of
-pre-rendered backgrounds in unity, with most of the kinks worked
-out. I'm making this project because I want to explore the artistic
-avenues and technical considerations of pre-rendered backgrounds. I
-admire the stylistic refinement, compositional intentionality, and
-fullness of detail of PS1 era pre-rendered backgrounds. These seem to
-be considerations which have lost emphasis in games since the hardware
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+![An example scene generated with prebut](Images/zoomed-out.png)
+
+Prebut is a project to demonstrate a workflow for generation and usage
+of pre-rendered backgrounds in unity. This workflow allows the
+creation visually sophisticated scenes in blender which require a
+non-realtime rendering approach and allow objects in unity to interact
+with in realtime.
+
+![Another game which uses this approach](Images/dennis-scrolling-demo.gif)
+
+I'm making this project because I want to explore the artistic avenues
+and technical considerations of pre-rendered backgrounds. I admire the
+stylistic refinement, compositional intentionality, and fullness of
+detail of PS1 era pre-rendered backgrounds. These seem to be
+considerations which have lost emphasis in games since the hardware
 limitation based motivation for the usage of pre-rendered backgrounds
-was alleviated, so I decided to explore the potential of this approach,
-while evoking a similar style, using modern tooling, through this
-project.
+was alleviated, so I decided to explore the potential of this
+approach, while evoking a similar style, using modern tooling, through
+this project.
 
 This project works by exporting depth information from your scene in
 blender and using that to specify the depth value in unity, which
@@ -25,40 +93,81 @@ allows objects in unity to move around pre-rendered objects. You can
 then export simplified colliders from blender to allow accurate
 collisions with pre-rendered objects.
 
-This project supports both perspective and orthographic perspective,
-including the ability to effectively pan around orthographic scenes. My
-goal with this project was to make it quite flexible and minimally
-interfere with your workflow.
+This project supports both perspective and orthographic cameras,
+including the ability to effectively pan around orthographic
+scenes. My goal with this project was to make it quite flexible and
+minimally interfere with your workflow.
 
-## What's inside?
+### What's inside?
 
-This project is composed of three parts; a blender add-on, and a unity
+This project is composed of three parts; a blender add-on, a unity
 package, and an explanation of how to use them together.
 
 The blender add-on provides a panel for exporting data about the
 current scene and for generating a compositor node for feeding
-rendered images into.
+rendered image data into.
 
 The Unity package provides a component which takes in the data and
 textures generated by blender and constructs a pre-rendered background
 setup in the scene.
 
-## Installation
+### Who is this for?
 
-### Blender Add-on
+This project is for people who are interested in experimenting with
+pre-rendered backgrounds in their development projects, but have
+struggled with getting a working configuration or are looking for a
+smoother workflow. It is also useful for devs who specialize in 3d
+visual assets and are looking for unique ways to apply these
+techniques for their games. This approach is especially useful for
+games with fixed camera angles (survival horror, point and click
+adventure, visual novel), games with a retro aesthetic, or games with
+an isometric view (grid-based strategy, top down adventure, tower
+defense, RPG)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Getting Started
+
+### Dependencies
+
+*Note that this project may work on earlier versions of Blender and Unity, these are just the earliest versions I have tested*
+
+- Unity 2020.3 or later
+  - Default render pipeline
+  - 16 bit per channel texture support
+    - Support for this in webgl builds was added later; in 2021.1
+- Blender 4.0.0 or later
+
+
+### Installation
+
+#### Blender Add-on
 
 1. Open Blender Preferences
 2. Click "Install"
-3. Navigate to `./BlenderAddon/prebut.py` and click "Install Add-On"
+3. Navigate to `prebut.py` (under `BlenderAddon` if you cloned the repo) and click "Install Add-On"
 4. Click the checkbox next to "Render: Prebut"
+5. (Optional) Click the hamburger menu in the bottom left and click
+   "Save Preferences". This ensures that the add-on will be enabled on
+   subsequent restarts.
 
-### Unity
+#### Unity Package
 
-1. Open Unity "Package Manager" window
-2. Click the plus in the top right
-3. Click "Add package from disk"
-4. Navigate to the Prebut root directory, and select the "package.json" file
+1. Set up a unity project. Note that this has only been tested with the
+   default render pipeline.
+2. Open the Unity "Package Manager" window
+3. Click the plus in the top right
+4. Add the package
+   - If you cloned the repo
+     1. Click "Add package from disk"
+     2. Navigate to the Prebut root directory and select the "package.json" file
+   - If you downloaded from releases
+     1. Click "Add Package from Tarball"
+     2. Navigate to and select the "prebut-unity-package-x.x.x.tgz" file
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- USAGE EXAMPLES -->
 ## Usage
 
 Note that this workflow is quite explicit to make sure it works the
@@ -85,9 +194,9 @@ on.
     8. (Optional) Toggle `Properties > Render > Film > Transparent` on
        to have color texture terminate at edge of visible content for
        specifying a clear color in Unity.
-    8. Render image. (Make sure you are on a consistent frame,
+    9. Render image. (Make sure you are on a consistent frame,
        otherwise it will change the outputted files name.)
-    9. Export simplified version of the scene for use in unity. 
+    10. Export simplified version of the scene for use in unity. 
        1. Move camera and main lights to a separate collection if they
           aren't already, henceforth called "Shared"
        2. Make a collection with simplified meshes which will act as the
@@ -127,14 +236,23 @@ object around the scene to see it interact with the pre-rendered
 parts. Select "Setup" to see colliders to get an idea of where
 everything is.
 
-## Custom Clear
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-This library has another piece of functionality. The ability to clear
-the background with a scrolling repeating pattern. This is a common
-stylistic tool used for this approach, so I decided to give it official
-support.
+### Extra Functionality
 
-### Usage
+These are chunks of functionality which are not strictly necessary for
+the core goal of the system, but they are generally useful enough
+when it comes to this approach that I deem it prudent to include them.
+
+#### Custom Clear
+
+This piece of functionality gives the ability to clear the background
+with a scrolling repeating pattern. This is a common stylistic tool
+used for this approach historically, so I decided to give it official
+support. This effect is demonstrated in [the
+demo](https://errorstream.itch.io/prebut-demo).
+
+![Animation showing the effect](Images/prebut-demo-scroll-bg.gif)
 
 Once you have a scene with `Prebut/Setup Pre-Rendered Background` component
 in it, follow these steps to add custom clearing.
@@ -152,19 +270,74 @@ This component should print warnings on play if there are settings in
 the current scene which interfere with it, but that should be enough
 to work.
 
-## Orthographic Camera Center Controller
+#### Orthographic Camera Center Controller
 
-A common approach with this technique is zooming in on and panning
-around a large pre-rendered scene. It is not trivial to keep the depth
-and color camera and 3D scene camera in sync so to facilitate this
-project has the "Orthographic Camera Center Controller"
-component. This is generated automatically by the `Prebut/Setup
-Pre-Rendered Background` component if the pre-rendered scene was
-generated with an orthographic camera and "Add Orthographic Camera
-Center Controller" is checked.
+A common approach with this technique when using an orthographic
+camera is zooming in on and panning around a large pre-rendered
+scene. It is not trivial to keep the depth and color camera and 3D
+scene camera in sync, so to facilitate this; this project has the
+"Orthographic Camera Center Controller" component. This is generated
+automatically by the `Prebut/Setup Pre-Rendered Background` component
+if the pre-rendered scene was generated with an orthographic camera
+and "Add Orthographic Camera Center Controller" is checked.
 
 The usage is simple. Set Center to the position in world space which
-you want the view to center on. Set Zoom to the zoom level you want.
+you want the view to center on. Set Zoom to the zoom level you
+want. The camera will automatically move to the appropriate location
+to center that point and adjust its zoom level.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- ROADMAP -->
+## Roadmap
+
+- [x] Perspective Backgrounds
+- [x] Orthographic Backgrounds
+- [x] Orthographic Panning
+- [x] Scrolling Clear
+- [ ] Lower Minimum Version
+- [ ] Panning across multiple background textures
+- [ ] Pre-rendered midground and foreground entities
+
+See the [open issues](https://github.com/errorStream/levers/issues)
+for a full list of proposed features (and known issues).
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- CONTRIBUTING -->
+## Contributing
+
+If you have a suggestion that would make this better, please fork the
+repo and create a pull request. You can also simply open an issue with
+the tag "enhancement".
+
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- CONTACT -->
+## Contact
+
+ErrorStream - [itch.io profile](https://errorstream.itch.io) - errorstream@amequus.com
+
+Project Link: [https://github.com/errorStream/prebut](https://github.com/errorStream/prebut)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Acknowledgments
 
@@ -174,3 +347,5 @@ you want the view to center on. Set Zoom to the zoom level you want.
 - [SpookyFM/DepthCompositing: Depth Compositing Demo in Unity and
   Blender](https://github.com/SpookyFM/DepthCompositing/) for giving
   me some starting intuitions for understanding this approach.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
