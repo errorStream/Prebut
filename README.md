@@ -164,6 +164,12 @@ defense, RPG)
    - If you downloaded from releases
      1. Click "Add Package from Tarball"
      2. Navigate to and select the "prebut-unity-package-x.x.x.tgz" file
+   - If you want to install directly from a git url
+     1. Click "Add Package from git URL"
+     2. Paste in a git url. This is available from the Code dropdown
+        in the top right. In this case it would be
+        https://github.com/errorStream/Prebut.git
+     3. Click "Add"
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

@@ -3,5 +3,9 @@
   "version": "1.0.0",
   "description": "A suite of tools for making pre-rendered backgrounds in blender for use in unity",
   "displayName": "Prebut",
-  "unity": "2020.3"
+  "unity": "2020.3",
+  "author": {
+    "name": "ErrorStream",
+    "email": "errorstream@amequus.com"
+  }
 }
