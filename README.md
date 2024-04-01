@@ -145,7 +145,7 @@ defense, RPG)
 
 1. Open Blender Preferences
 2. Click "Install"
-3. Navigate to `prebut.py` (under `BlenderAddon` if you cloned the repo) and click "Install Add-On"
+3. Navigate to `prebut.py` (under `BlenderAddon` if you cloned the repo, named `prebut-blender-addon-vx.x.x.py` if you got it from releases) and click "Install Add-On"
 4. Click the checkbox next to "Render: Prebut"
 5. (Optional) Click the hamburger menu in the bottom left and click
    "Save Preferences". This ensures that the add-on will be enabled on
@@ -163,7 +163,7 @@ defense, RPG)
      2. Navigate to the Prebut root directory and select the "package.json" file
    - If you downloaded from releases
      1. Click "Add Package from Tarball"
-     2. Navigate to and select the "prebut-unity-package-x.x.x.tgz" file
+     2. Navigate to and select the "prebut-unity-package-vx.x.x.tgz" file
    - If you want to install directly from a git url
      1. Click "Add Package from git URL"
      2. Paste in a git url. This is available from the Code dropdown
