@@ -56,6 +56,13 @@ namespace Prebut
             _plane.transform.SetParent(transform);
             _plane.transform.localPosition = new Vector3(0, 0, 0);
             _plane.gameObject.layer = gameObject.layer;
+            {
+                var collider = _plane.GetComponent<MeshCollider>();
+                if (collider != null)
+                {
+                    Destroy(collider);
+                }
+            }
 
             _material = new Material(_backgroundMaterial);
             _plane.GetComponent<MeshRenderer>().material = _material;
