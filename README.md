@@ -144,6 +144,7 @@ defense, RPG)
 #### Blender Add-on
 
 1. Open Blender Preferences
+2. Click "Addons" on the left panel
 2. Click "Install"
 3. Navigate to `prebut.py` (under `BlenderAddon` if you cloned the repo, named `prebut-blender-addon-vx.x.x.py` if you got it from releases) and click "Install Add-On"
 4. Click the checkbox next to "Render: Prebut"
@@ -305,7 +306,7 @@ to center that point and adjust its zoom level.
 - [ ] Panning across multiple background textures
 - [ ] Pre-rendered midground and foreground entities
 
-See the [open issues](https://github.com/errorStream/levers/issues)
+See the [open issues](https://github.com/errorStream/Prebut/issues)
 for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
